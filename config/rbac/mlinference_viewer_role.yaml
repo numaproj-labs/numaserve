@@ -1,0 +1,27 @@
+# permissions for end users to view mlinferences.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: mlinference-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: mlserve
+    app.kubernetes.io/part-of: mlserve
+    app.kubernetes.io/managed-by: kustomize
+  name: mlinference-viewer-role
+rules:
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences/status
+  verbs:
+  - get

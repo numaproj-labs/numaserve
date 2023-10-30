@@ -1,0 +1,69 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - statefulsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - numaflow.numaproj.io
+  resources:
+  - interstepbufferservices
+  - pipelines
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - v1
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch

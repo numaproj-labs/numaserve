@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "serve"
+version = "0.1.3"
+description = ""
+authors = ["Avik Basu <avikbasu93@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.11"
+pynumaflow = "^0.5.3"
+numpy = "^1.26.1"
+orjson = "^3.9.9"
+onnx = "^1.14.1"
+onnxruntime = "^1.16.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.0"
+ruff = "~0.0.275"
+pre-commit = "^3.3.1"
+torch = "^2.1.0"
+
+[tool.black]
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | \.idea
+  | _build
+  | buck-out
+  | build
+  | dist
+  | examples/.*/venv
+  | tests/.*/setup.py
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+src = ["src"]
+select = ["E", "F", "W", "C901", "NPY", "RUF", "TRY", "G", "PLE", "PLW", "UP", "ICN", "RET", "Q" , "PLR", "D"]
+ignore = ["TRY003", "TRY301", "RUF100", "D100", "D104", "PLR2004", "D102", "D401", "D107", "D205", "D105", "PLW0603"]
+target-version = "py311"
+show-fixes = true
+show-source = true
+
+[tool.ruff.pylint]
+max-args = 15
+max-statements = 30
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

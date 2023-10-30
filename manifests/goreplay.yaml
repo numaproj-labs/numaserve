@@ -1,0 +1,51 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: pod-reader
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["deployments"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["daemonset"]
+    verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: goreplay-reader-binding
+subjects:
+  - kind: ServiceAccount
+    name: goreplay
+    namespace: goreplay
+roleRef:
+  kind: ClusterRole
+  name: pod-reader
+  apiGroup: ""
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: goreplay-daemon
+spec:
+
+  selector:
+    matchLabels:
+      name: "goreplay"
+  template:
+    metadata:
+      labels:
+        name: "goreplay"
+    spec:
+      serviceAccountName: goreplay
+      hostNetwork: true
+      containers:
+        - name: goreplay
+          image: buger/goreplay:latest
+          args:
+            - --input-raw
+            - "k8s://mlserve/labelSelector/numaflow.numaproj.io/vertex-name=in"
+            - --output-stdout

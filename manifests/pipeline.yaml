@@ -1,0 +1,56 @@
+apiVersion: numaflow.numaproj.io/v1alpha1
+kind: Pipeline
+metadata:
+  name: http-pipeline
+spec:
+  vertices:
+    - name: in
+      scale:
+        min: 3
+      source:
+        # An http endpoint
+        http:
+          # Whether to create a ClusterIP Service, defaults to false
+          service: true
+#          insecureSkipVerify: true
+    - name: cat1
+      limits:
+        readBatchSize: 1
+      scale:
+        min: 1
+      udf:
+        builtin:
+          name: cat # A built-in UDF which simply cats the message
+    - name: inference
+      limits:
+        readBatchSize: 4
+      scale:
+        min: 1
+      udf:
+        container:
+          image: quay.io/numaio/mlserve/inference:v0.1.1
+    - name: out
+      sink:
+        # A simple log printing sink
+        log: {}
+    - name: mlservesink
+      limits:
+        readBatchSize: 1
+      scale:
+        min: 1
+      sink:
+        udsink:
+          container:
+            image: quay.io/numaio/mlserve:v5
+            args:
+              - sink
+
+  edges:
+    - from: in
+      to: cat1
+    - from: cat1
+      to: inference
+    - from: inference
+      to: out
+    - from: inference
+      to: mlservesink
