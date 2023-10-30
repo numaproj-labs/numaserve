@@ -1,0 +1,33 @@
+apiVersion: mlserve.numaproj.io/v1alpha1
+kind: MLInference
+metadata:
+  name: "sample-ml-server-complex"
+spec:
+  inferenceType: sync
+ preSteps:
+   - name: prestep-1
+     builtin:
+       name: cat
+   - name: prestep-2
+     builtin:
+       name: cat
+  predictor:
+    - name: pytorch
+      model:
+        modelFormat: pytorch
+        modelStore:
+          s3:
+            host: "minio.minio-dev.svc.cluster.local:9000"
+            accessKeyID:
+              name: minio
+              key: accessKeyID
+            secretAccessKey:
+              name: minio
+              key: secretAccessKey
+            bucket: "mlserve"
+            objectKey: model.onnx
+            outputPath: "/tmp/model/tmp/d"
+ postSteps:
+   - name: poststep
+     builtin:
+       name: cat

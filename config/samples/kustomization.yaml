@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- mlserve.numaproj.io_v1alpha1_mlinference.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples

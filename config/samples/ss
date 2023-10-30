@@ -1,5 +1,4 @@
-# numaserve
-  numaserve is a standard, cloud agnostic Model Inference Platform on Kubernetes, built for highly scalable use cases.
+MLServe is a standard, cloud agnostic Model Inference Platform on Kubernetes, built for highly scalable use cases.
 Providing advanced Model deployments like canary rollout, Progressive rollout to confidenty deploying model in to production.
 Create new canary inference pipeline if any atomic unit changes which will help to assess the new change with end to end pipeline.
 Easy to create high scalable production inference serving with pre/post processing in few lines

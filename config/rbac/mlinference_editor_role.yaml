@@ -1,0 +1,31 @@
+# permissions for end users to edit mlinferences.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: mlinference-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: mlserve
+    app.kubernetes.io/part-of: mlserve
+    app.kubernetes.io/managed-by: kustomize
+  name: mlinference-editor-role
+rules:
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - mlserve.numaproj.io
+  resources:
+  - mlinferences/status
+  verbs:
+  - get

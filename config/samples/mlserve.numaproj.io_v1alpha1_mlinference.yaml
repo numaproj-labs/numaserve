@@ -1,0 +1,22 @@
+apiVersion: mlserve.numaproj.io/v1alpha1
+kind: MLInference
+metadata:
+  name: "sample-ml-server"
+spec:
+  inferenceType: sync
+  predictor:
+    - name: pytorch
+      model:
+        modelFormat: pytorch
+        modelStore:
+          s3:
+            host: "minio.minio-dev.svc.cluster.local:9000"
+            accessKeyID:
+              name: minio
+              key: accessKeyID
+            secretAccessKey:
+              name: minio
+              key: secretAccessKey
+            bucket: "mlserve"
+            objectKey: model_v1.onnx
+            outputPath: "/tmp/model/tmp/d"
